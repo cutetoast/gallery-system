@@ -3,11 +3,11 @@ package com.mycompany.myapp.service.mapper;
 import static com.mycompany.myapp.domain.AlbumAsserts.*;
 import static com.mycompany.myapp.domain.AlbumTestSamples.*;
 
+import com.mycompany.myapp.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@IntegrationTest
 class AlbumMapperTest {
 
     @Autowired
