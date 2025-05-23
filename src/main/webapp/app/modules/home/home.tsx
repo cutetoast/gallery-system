@@ -46,7 +46,7 @@ export const Home = () => {
             </Alert>
 
             <Alert color="warning">
-              <Translate contentKey="global.messages.info.register.noaccount">You do not have an account yet?</Translate>&nbsp;
+              <Translate contentKey="global.messages.info.register.noaccount">You do not have an account yettersds?</Translate>&nbsp;
               <Link to="/account/register" className="alert-link">
                 <Translate contentKey="global.messages.info.register.link">Register a new account</Translate>
               </Link>
