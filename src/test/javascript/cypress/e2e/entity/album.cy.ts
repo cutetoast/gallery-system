@@ -42,7 +42,7 @@ describe('Album e2e test', () => {
 
   it('Albums menu should load Albums page', () => {
     cy.visit('/');
-    cy.clickOnEntityMenuItem('album');
+    cy.get('[data-cy="album"]').click();
     cy.wait('@entitiesRequest').then(({ response }) => {
       if (response?.body.length === 0) {
         cy.get(entityTableSelector).should('not.exist');
@@ -100,7 +100,6 @@ describe('Album e2e test', () => {
         });
 
         cy.visit(albumPageUrl);
-
         cy.wait('@entitiesRequestInternal');
       });
 
@@ -178,13 +177,13 @@ describe('Album e2e test', () => {
 
       cy.setFieldImageAsBytesOfEntity('thumbnail', 'integration-test.png', 'image/png');
 
-      // since cypress clicks submit too fast before the blob fields are validated
-      cy.wait(200); // eslint-disable-line cypress/no-unnecessary-waiting
+      // Add a longer wait before clicking submit
+      cy.wait(500);
       cy.get(entityCreateSaveButtonSelector).click();
 
       cy.wait('@postEntityRequest').then(({ response }) => {
         expect(response?.statusCode).to.equal(201);
-        album = response.body;
+        album = response?.body;
       });
       cy.wait('@entitiesRequest').then(({ response }) => {
         expect(response?.statusCode).to.equal(200);

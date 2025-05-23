@@ -52,9 +52,18 @@ spring:
     contexts: dev, faker
   mail:
     host: localhost
-    port: 25
+    port: 1025 # Mailhog default SMTP port
     username:
     password:
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+            required: false
+    test-connection: false # Disable mail health check in dev
   messages:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
   thymeleaf:

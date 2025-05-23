@@ -9,7 +9,10 @@ export default defineConfig({
   chromeWebSecurity: true,
   viewportWidth: 1200,
   viewportHeight: 720,
-  retries: 2,
+  retries: {
+    runMode: 2,
+    openMode: 0,
+  },
   scrollBehavior: 'center',
   env: {
     authenticationUrl: '/api/authenticate',
@@ -22,7 +25,11 @@ export default defineConfig({
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return (await import('./src/test/javascript/cypress/plugins/index')).default(on, config);
     },
-    baseUrl: 'http://localhost:8080/',
+    baseUrl: 'http://localhost:8080',
+    defaultCommandTimeout: 10000,
+    requestTimeout: 10000,
+    responseTimeout: 10000,
+    pageLoadTimeout: 30000,
     specPattern: 'src/test/javascript/cypress/e2e/**/*.cy.ts',
     supportFile: 'src/test/javascript/cypress/support/index.ts',
     experimentalRunAllSpecs: true,
