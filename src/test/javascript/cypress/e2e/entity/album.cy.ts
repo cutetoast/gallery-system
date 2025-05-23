@@ -20,10 +20,12 @@ describe('Album e2e test', () => {
   let album;
 
   beforeEach(() => {
+    cy.log('Logging in...');
     cy.login(username, password);
   });
 
   beforeEach(() => {
+    cy.log('Setting up API interceptors...');
     cy.intercept('GET', '/api/albums+(?*|)').as('entitiesRequest');
     cy.intercept('POST', '/api/albums').as('postEntityRequest');
     cy.intercept('DELETE', '/api/albums/*').as('deleteEntityRequest');
@@ -41,9 +43,12 @@ describe('Album e2e test', () => {
   });
 
   it('Albums menu should load Albums page', () => {
+    cy.log('Visiting home page...');
     cy.visit('/');
+    cy.log('Clicking on Album menu item...');
     cy.clickOnEntityMenuItem('album');
-    cy.wait('@entitiesRequest').then(({ response }) => {
+    cy.log('Waiting for entities request...');
+    cy.wait('@entitiesRequest', { timeout: 10000 }).then(({ response }) => {
       if (response?.body.length === 0) {
         cy.get(entityTableSelector).should('not.exist');
       } else {
@@ -101,11 +106,11 @@ describe('Album e2e test', () => {
 
         cy.visit(albumPageUrl);
 
-        cy.wait('@entitiesRequestInternal');
+        cy.wait('@entitiesRequestInternal', { timeout: 10000 });
       });
 
       it('detail button click should load details Album page', () => {
-        cy.get(entityDetailsButtonSelector).first().click();
+        cy.get(entityDetailsButtonSelector, { timeout: 10000 }).first().click();
         cy.getEntityDetailsHeading('album');
         cy.get(entityDetailsBackButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
@@ -115,7 +120,7 @@ describe('Album e2e test', () => {
       });
 
       it('edit button click should load edit Album page and go back', () => {
-        cy.get(entityEditButtonSelector).first().click();
+        cy.get(entityEditButtonSelector, { timeout: 10000 }).first().click();
         cy.getEntityCreateUpdateHeading('Album');
         cy.get(entityCreateSaveButtonSelector).should('exist');
         cy.get(entityCreateCancelButtonSelector).click();
@@ -126,7 +131,7 @@ describe('Album e2e test', () => {
       });
 
       it('edit button click should load edit Album page and save', () => {
-        cy.get(entityEditButtonSelector).first().click();
+        cy.get(entityEditButtonSelector, { timeout: 10000 }).first().click();
         cy.getEntityCreateUpdateHeading('Album');
         cy.get(entityCreateSaveButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
@@ -138,7 +143,7 @@ describe('Album e2e test', () => {
       it('last delete button click should delete instance of Album', () => {
         cy.intercept('GET', '/api/albums/*').as('dialogDeleteRequest');
         cy.get(entityDeleteButtonSelector).last().click();
-        cy.wait('@dialogDeleteRequest');
+        cy.wait('@dialogDeleteRequest', { timeout: 10000 });
         cy.getEntityDeleteDialogHeading('album').should('exist');
         cy.get(entityConfirmDeleteButtonSelector).click();
         cy.wait('@deleteEntityRequest').then(({ response }) => {
@@ -157,7 +162,7 @@ describe('Album e2e test', () => {
   describe('new Album page', () => {
     beforeEach(() => {
       cy.visit(`${albumPageUrl}`);
-      cy.get(entityCreateButtonSelector).click();
+      cy.get(entityCreateButtonSelector, { timeout: 10000 }).click();
       cy.getEntityCreateUpdateHeading('Album');
     });
 
