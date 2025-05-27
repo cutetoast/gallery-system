@@ -2,6 +2,7 @@ package com.mycompany.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.mycompany.myapp.domain.Album;
 import java.time.Instant;
 import org.junit.jupiter.api.Test;
 
