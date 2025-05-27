@@ -3,9 +3,7 @@ import './home.scss';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Translate } from 'react-jhipster';
-import { Alert, Col, Row, Button, Card, CardBody, CardTitle, CardText } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImage, faPlus, faEye, faCalendarAlt, faSortAlphaDown } from '@fortawesome/free-solid-svg-icons';
+import { Alert, Col, Row } from 'reactstrap';
 
 import { useAppSelector } from 'app/config/store';
 
@@ -13,103 +11,30 @@ export const Home = () => {
   const account = useAppSelector(state => state.authentication.account);
 
   return (
-    <div className="gallery-home">
-      <Row>
-        <Col md="12">
-          <div className="hero-section text-center mb-5">
-            <FontAwesomeIcon icon={faImage} size="4x" className="text-primary mb-3" />
-            <h1 className="display-4 mb-3">
-              <Translate contentKey="home.gallery.title">Photo Gallery System</Translate>
-            </h1>
-            <p className="lead text-muted mb-4">
-              <Translate contentKey="home.gallery.subtitle">Organize and browse your photo albums by event or date</Translate>
-            </p>
-
-            {account?.login ? (
-              <div className="gallery-actions">
-                <Button color="primary" size="lg" tag={Link} to="/gallery" className="me-3">
-                  <FontAwesomeIcon icon={faEye} className="me-2" />
-                  <Translate contentKey="home.gallery.viewGallery">View Gallery</Translate>
-                </Button>
-                <Button color="outline-primary" size="lg" tag={Link} to="/album/new">
-                  <FontAwesomeIcon icon={faPlus} className="me-2" />
-                  <Translate contentKey="home.gallery.createAlbum">Create Album</Translate>
-                </Button>
-              </div>
-            ) : (
-              <div className="auth-prompt">
-                <Alert color="info" className="d-inline-block">
-                  <Translate contentKey="home.gallery.loginPrompt">Please sign in to access the gallery</Translate>
-                </Alert>
-              </div>
-            )}
-          </div>
-        </Col>
-      </Row>
-
-      <Row className="features-section">
-        <Col md="4" className="mb-4">
-          <Card className="h-100 text-center">
-            <CardBody>
-              <FontAwesomeIcon icon={faSortAlphaDown} size="2x" className="text-primary mb-3" />
-              <CardTitle tag="h5">
-                <Translate contentKey="home.gallery.features.sortByEvent">Sort by Event</Translate>
-              </CardTitle>
-              <CardText>
-                <Translate contentKey="home.gallery.features.sortByEventDesc">
-                  Organize your albums by event names for easy browsing
-                </Translate>
-              </CardText>
-            </CardBody>
-          </Card>
-        </Col>
-        <Col md="4" className="mb-4">
-          <Card className="h-100 text-center">
-            <CardBody>
-              <FontAwesomeIcon icon={faCalendarAlt} size="2x" className="text-primary mb-3" />
-              <CardTitle tag="h5">
-                <Translate contentKey="home.gallery.features.sortByDate">Sort by Date</Translate>
-              </CardTitle>
-              <CardText>
-                <Translate contentKey="home.gallery.features.sortByDateDesc">
-                  Browse albums chronologically with date-based organization
-                </Translate>
-              </CardText>
-            </CardBody>
-          </Card>
-        </Col>
-        <Col md="4" className="mb-4">
-          <Card className="h-100 text-center">
-            <CardBody>
-              <FontAwesomeIcon icon={faImage} size="2x" className="text-primary mb-3" />
-              <CardTitle tag="h5">
-                <Translate contentKey="home.gallery.features.thumbnails">Thumbnail Display</Translate>
-              </CardTitle>
-              <CardText>
-                <Translate contentKey="home.gallery.features.thumbnailsDesc">
-                  Beautiful thumbnail previews for quick album identification
-                </Translate>
-              </CardText>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-
-      {account?.login ? (
-        <Row>
-          <Col md="12">
-            <Alert color="success" className="text-center">
+    <Row>
+      <Col md="3" className="pad">
+        <span className="hipster rounded" />
+      </Col>
+      <Col md="9">
+        <h1 className="display-4">
+          <Translate contentKey="home.title">Welcome, Java Hipster!</Translate>
+        </h1>
+        <p className="lead">
+          <Translate contentKey="home.subtitle">This is your homepage</Translate>
+        </p>
+        {account?.login ? (
+          <div>
+            <Alert color="success">
               <Translate contentKey="home.logged.message" interpolate={{ username: account.login }}>
-                Welcome back, {account.login}! You can now access your photo gallery.
+                You are logged in as user {account.login}.
               </Translate>
             </Alert>
-          </Col>
-        </Row>
-      ) : (
-        <Row>
-          <Col md="12">
-            <Alert color="warning" className="text-center">
+          </div>
+        ) : (
+          <div>
+            <Alert color="warning">
               <Translate contentKey="global.messages.info.authenticated.prefix">If you want to </Translate>
+
               <Link to="/login" className="alert-link">
                 <Translate contentKey="global.messages.info.authenticated.link"> sign in</Translate>
               </Link>
@@ -120,16 +45,55 @@ export const Home = () => {
               </Translate>
             </Alert>
 
-            <Alert color="info" className="text-center">
+            <Alert color="warning">
               <Translate contentKey="global.messages.info.register.noaccount">You do not have an account yet?</Translate>&nbsp;
               <Link to="/account/register" className="alert-link">
                 <Translate contentKey="global.messages.info.register.link">Register a new account</Translate>
               </Link>
             </Alert>
-          </Col>
-        </Row>
-      )}
-    </div>
+          </div>
+        )}
+        <p>
+          <Translate contentKey="home.question">If you have any question on JHipster:</Translate>
+        </p>
+
+        <ul>
+          <li>
+            <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer">
+              <Translate contentKey="home.link.homepage">JHipster homepage</Translate>
+            </a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">
+              <Translate contentKey="home.link.stackoverflow">JHipster on Stack Overflow</Translate>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener noreferrer">
+              <Translate contentKey="home.link.bugtracker">JHipster bug tracker</Translate>
+            </a>
+          </li>
+          <li>
+            <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
+              <Translate contentKey="home.link.chat">JHipster public chat room</Translate>
+            </a>
+          </li>
+          <li>
+            <a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer">
+              <Translate contentKey="home.link.follow">follow @jhipster on Twitter</Translate>
+            </a>
+          </li>
+        </ul>
+
+        <p>
+          <Translate contentKey="home.like">If you like JHipster, do not forget to give us a star on</Translate>{' '}
+          <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
+            GitHub
+          </a>
+          !
+        </p>
+      </Col>
+    </Row>
   );
 };
 
