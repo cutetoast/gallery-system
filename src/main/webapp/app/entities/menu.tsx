@@ -7,6 +7,9 @@ const EntitiesMenu = () => {
   return (
     <>
       {/* prettier-ignore */}
+      <MenuItem icon="image" to="/gallery">
+        <Translate contentKey="global.menu.entities.gallery" />
+      </MenuItem>
       <MenuItem icon="asterisk" to="/album">
         <Translate contentKey="global.menu.entities.album" />
       </MenuItem>

@@ -3,7 +3,7 @@
     "title": "Welcome, Java Hipster!",
     "subtitle": "This is your homepage",
     "logged": {
-      "message": "You are logged in as user \"{{username}}\"."
+      "message": "Welcome back, {{username}}! You can now access your photo gallery."
     },
     "question": "If you have any question on JHipster:",
     "link": {
@@ -14,6 +14,21 @@
       "follow": "follow @jhipster on Twitter"
     },
     "like": "If you like JHipster, don't forget to give us a star on",
-    "github": "GitHub"
+    "github": "GitHub",
+    "gallery": {
+      "title": "Photo Gallery System",
+      "subtitle": "Organize and browse your photo albums by event or date",
+      "viewGallery": "View Gallery",
+      "createAlbum": "Create Album",
+      "loginPrompt": "Please sign in to access the gallery",
+      "features": {
+        "sortByEvent": "Sort by Event",
+        "sortByEventDesc": "Organize your albums by event names for easy browsing",
+        "sortByDate": "Sort by Date",
+        "sortByDateDesc": "Browse albums chronologically with date-based organization",
+        "thumbnails": "Thumbnail Display",
+        "thumbnailsDesc": "Beautiful thumbnail previews for quick album identification"
+      }
+    }
   }
 }
