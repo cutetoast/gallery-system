@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Integration tests for {@link AlbumRepository}.
  * Tests JDL requirements, sorting, pagination, and database operations.
- * Uses only existing repository methods and custom queries.
  */
 @DataJpaTest
 @IntegrationTest
@@ -102,27 +101,12 @@ class AlbumRepositoryTest {
         assertThat(albums.get(3).getName()).isEqualTo("Wedding Photos");
     }
 
-    // JDL Requirement: ManyToOne relationship with User - Use existing method
+    // JDL Requirement: ManyToOne relationship with User
     @Test
     @Transactional
-    void testFindByUserIsCurrentUser() {
-        // When - Use the existing method that finds albums for current user
-        List<Album> result = albumRepository.findByUserIsCurrentUser();
-
-        // Then - Note: This will be empty in test context as there's no authentication
-        // But we can verify the method exists and works
-        assertThat(result).isNotNull();
-    }
-
-    // Custom query to find albums by user - using EntityManager
-    @Test
-    @Transactional
-    void testFindAlbumsByUser() {
-        // When - Use custom query since findByUserLogin doesn't exist
-        List<Album> result = entityManager
-            .createQuery("SELECT a FROM Album a WHERE a.user.login = :login", Album.class)
-            .setParameter("login", "testuser")
-            .getResultList();
+    void testFindByUserLogin() {
+        // When
+        List<Album> result = albumRepository.findByUserLogin("testuser");
 
         // Then
         assertThat(result).hasSize(4);
@@ -132,9 +116,9 @@ class AlbumRepositoryTest {
     // User Story Requirement: Handle albums without events (Miscellaneous)
     @Test
     @Transactional
-    void testFindAlbumsWithoutEvents() {
-        // When - Use custom query since findByEventIsNull doesn't exist
-        List<Album> result = entityManager.createQuery("SELECT a FROM Album a WHERE a.event IS NULL", Album.class).getResultList();
+    void testFindByEventIsNull() {
+        // When
+        List<Album> result = albumRepository.findByEventIsNull();
 
         // Then
         assertThat(result).hasSize(1);
@@ -143,9 +127,9 @@ class AlbumRepositoryTest {
 
     @Test
     @Transactional
-    void testFindAlbumsWithEvents() {
-        // When - Use custom query since findByEventIsNotNull doesn't exist
-        List<Album> result = entityManager.createQuery("SELECT a FROM Album a WHERE a.event IS NOT NULL", Album.class).getResultList();
+    void testFindByEventIsNotNull() {
+        // When
+        List<Album> result = albumRepository.findByEventIsNotNull();
 
         // Then
         assertThat(result).hasSize(3);
@@ -188,10 +172,8 @@ class AlbumRepositoryTest {
         albumRepository.saveAndFlush(album1);
         albumRepository.saveAndFlush(album2);
 
-        // When - Use custom query since findByThumbnailIsNotNull doesn't exist
-        List<Album> albumsWithThumbnails = entityManager
-            .createQuery("SELECT a FROM Album a WHERE a.thumbnail IS NOT NULL", Album.class)
-            .getResultList();
+        // When
+        List<Album> albumsWithThumbnails = albumRepository.findByThumbnailIsNotNull();
 
         // Then
         assertThat(albumsWithThumbnails).hasSize(1);
@@ -272,7 +254,7 @@ class AlbumRepositoryTest {
     @Test
     @Transactional
     void testEagerLoadingRelationships() {
-        // When - Use existing method
+        // When
         Page<Album> albums = albumRepository.findAllWithEagerRelationships(PageRequest.of(0, 10));
 
         // Then
@@ -283,19 +265,6 @@ class AlbumRepositoryTest {
                 assertThat(album.getUser()).isNotNull();
                 assertThat(album.getUser().getLogin()).isEqualTo("testuser");
             });
-    }
-
-    // Test the existing custom query method
-    @Test
-    @Transactional
-    void testFindOneWithEagerRelationships() {
-        // When - Use existing method
-        var album = albumRepository.findOneWithEagerRelationships(album1.getId());
-
-        // Then
-        assertThat(album).isPresent();
-        assertThat(album.get().getUser()).isNotNull();
-        assertThat(album.get().getUser().getLogin()).isEqualTo("testuser");
     }
 
     private Album createAlbum(String name, String event, Instant creationDate) {
